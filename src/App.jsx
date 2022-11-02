@@ -26,6 +26,7 @@ function App() {
   function startGame(){
     if (!isRunning) {
       setIsRunning(true)
+      setText("")
       setTimeRemaining(10)
     }
   }
