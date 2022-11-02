@@ -3,6 +3,7 @@ import './App.css'
 import React, { useEffect, useState } from 'react'
 
 function App() {
+  const STARTING_TIME = 10
   const [text, setText] = useState("")
   const [wordCountText, setwordCountText] = useState("")
   const [isRunning, setIsRunning] = useState(false)
@@ -14,8 +15,7 @@ function App() {
         setTimeRemaining((prevTimeRemaining => prevTimeRemaining - 1))
       }, 1000)
     } else if (timeRemaining === 0){
-      showWordCount()
-      setIsRunning(false)
+      endGame()
     }
   },[timeRemaining])
 
@@ -27,8 +27,13 @@ function App() {
     if (!isRunning) {
       setIsRunning(true)
       setText("")
-      setTimeRemaining(10)
+      setTimeRemaining(STARTING_TIME)
     }
+  }
+
+  function endGame(){
+    showWordCount()
+    setIsRunning(false)
   }
 
   async function showWordCount(){
@@ -48,6 +53,7 @@ function App() {
     <>
       <h1>How fast do you type?</h1>
       <textarea 
+        disabled={!isRunning}
         name='text'
         onChange={handleChange}
         placeholder="Type your text here"
