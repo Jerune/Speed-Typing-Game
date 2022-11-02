@@ -1,6 +1,6 @@
 // @ts-nocheck
 import './App.css'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 function App() {
   const STARTING_TIME = 10
@@ -8,6 +8,7 @@ function App() {
   const [wordCountText, setwordCountText] = useState("")
   const [isRunning, setIsRunning] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(0)
+  const inputRef = useRef(null)
   
   useEffect(() => {
     if (timeRemaining > 0) {
@@ -23,10 +24,11 @@ function App() {
     setText(event.target.value)
   }
 
-  function startGame(){
+  async function startGame(){
     if (!isRunning) {
-      setIsRunning(true)
+      await setIsRunning(true)
       setText("")
+      inputRef.current.focus()
       setTimeRemaining(STARTING_TIME)
     }
   }
@@ -53,6 +55,7 @@ function App() {
     <>
       <h1>How fast do you type?</h1>
       <textarea 
+        ref={inputRef}
         disabled={!isRunning}
         name='text'
         onChange={handleChange}
